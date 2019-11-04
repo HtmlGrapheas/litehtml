@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+if(MSVC)
+  cmake_minimum_required(VERSION 3.4)
+else()
+  cmake_minimum_required(VERSION 3.0)
+endif()
 
 project(litehtml CXX)
 
@@ -49,6 +53,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     CXX_STANDARD 11
     C_STANDARD 99
 )
+
+if(MSVC AND BUILD_SHARED_LIBS)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        WINDOWS_EXPORT_ALL_SYMBOLS ON
+    )
+endif()
 
 # Export litehtml includes.
 target_include_directories(${PROJECT_NAME} PUBLIC src)

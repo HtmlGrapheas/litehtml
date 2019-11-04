@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 2.8)
+if(MSVC)
+  cmake_minimum_required(VERSION 3.4)
+else()
+  cmake_minimum_required(VERSION 3.0)
+endif()
 
 project(gumbo C)
 
@@ -24,6 +28,12 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 if(MSVC)
     target_include_directories(${PROJECT_NAME} PRIVATE visualc/include)
+
+    if(BUILD_SHARED_LIBS)
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS ON
+        )
+    endif()
 endif()
 
 # Export gumbo includes.
